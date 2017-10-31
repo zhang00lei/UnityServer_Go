@@ -17,4 +17,10 @@ var (
 	ListenAddr      string
 	ConnAddrs       []string
 	PendingWriteNum int
+
+	//db
+	MySqlUserName string
+	MySqlUserPwd string
+	MySqlAddr string
+	DbName string
 )

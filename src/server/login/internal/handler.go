@@ -11,15 +11,14 @@ func handleMsg(m interface{}, h interface{}) {
 	skeleton.RegisterChanRPC(reflect.TypeOf(m), h)
 }
 func init() {
-	handleMsg(&msg.CS_Login{},CS_Login)
+	handleMsg(&msg.CS_PlayerLogin{},CS_Login)
 }
 
 func CS_Login(args[] interface{}){
-	m:=args[0].(*msg.CS_Login)
+	m:=args[0].(*msg.CS_PlayerLogin)
 	log.Debug(m.Account)
 	client:=args[1].(gate.Agent)
-	result:=msg.SC_Login{}
-	result.LoginResult= msg.SC_Login_ACCOUNT_ERROR
-	result.Account=m.Account
+	result:=msg.SC_PlayerLogin{}
+	result.LoginResult= msg.SC_PlayerLogin_ACCOUNT_ERROR;
 	client.WriteMsg(&result)
 }

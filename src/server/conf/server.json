@@ -1,6 +1,11 @@
 {
 	"LogLevel": "debug",
 	"LogPath": "",
-	"TCPAddr": "192.168.0.103:3563",
-	"MaxConnNum": 20000
+	"TCPAddr": "127.0.0.1:3563",
+	"MaxConnNum": 20000,
+
+	"MySqlUserName":"",
+	"MySqlUserPwd":"",
+	"MySqlAddr":"",
+	"DbName":""
 }

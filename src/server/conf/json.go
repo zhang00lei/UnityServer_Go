@@ -16,6 +16,11 @@ var Server struct {
 	MaxConnNum  int
 	ConsolePort int
 	ProfilePath string
+
+	MySqlUserName string
+	MySqlUserPwd string
+	MySqlAddr string
+	DbName string
 }
 
 func init() {

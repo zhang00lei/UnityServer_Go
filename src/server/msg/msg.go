@@ -8,7 +8,8 @@ import (
 //var Processor = json.NewProcessor()
 var Processor = protobuf.NewProcessor()
 func init() {
-	//Processor.Register( &Hello{})
-	Processor.Register(&CS_Login{})
-	Processor.Register(&SC_Login{})
+	Processor.Register(&CS_PlayerLogin{})
+	Processor.Register(&SC_PlayerLogin{})
+	Processor.Register(&CS_PlayerRegister{})
+	Processor.Register(&SC_PlayerRegister{})
 }
