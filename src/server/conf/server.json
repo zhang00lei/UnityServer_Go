@@ -4,8 +4,6 @@
 	"TCPAddr": "127.0.0.1:3563",
 	"MaxConnNum": 20000,
 
-	"MySqlUserName":"",
-	"MySqlUserPwd":"",
-	"MySqlAddr":"",
-	"DbName":""
+	"DB_DriverName":"mysql",
+	"DB_DataSourceName":"johnrey:johnrey@tcp(139.224.131.1:3306)/JohnReyDB?charset=utf8"
 }

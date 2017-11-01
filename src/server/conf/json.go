@@ -17,10 +17,8 @@ var Server struct {
 	ConsolePort int
 	ProfilePath string
 
-	MySqlUserName string
-	MySqlUserPwd string
-	MySqlAddr string
-	DbName string
+	DB_DriverName string
+	DB_DataSourceName string
 }
 
 func init() {

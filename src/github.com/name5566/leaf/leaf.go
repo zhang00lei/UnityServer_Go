@@ -8,8 +8,10 @@ import (
 	"github.com/name5566/leaf/module"
 	"os"
 	"os/signal"
+	"github.com/go-xorm/xorm"
+	_"github.com/go-sql-driver/mysql"
 )
-
+var DataEngine *xorm.Engine
 func Run(mods ...module.Module) {
 	// logger
 	if conf.LogLevel != "" {
@@ -34,6 +36,9 @@ func Run(mods ...module.Module) {
 
 	// console
 	console.Init()
+
+	//data
+	DataEngine,_ = xorm.NewEngine(conf.DB_DriverName,conf.DB_DataSourceName)
 
 	// close
 	c := make(chan os.Signal, 1)

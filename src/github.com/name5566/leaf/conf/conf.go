@@ -19,8 +19,6 @@ var (
 	PendingWriteNum int
 
 	//db
-	MySqlUserName string
-	MySqlUserPwd string
-	MySqlAddr string
-	DbName string
+	DB_DriverName string
+	DB_DataSourceName string
 )
