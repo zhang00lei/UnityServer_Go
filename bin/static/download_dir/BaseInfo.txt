@@ -1,0 +1,3 @@
+聊天中每条信息花费的金币,聊天中用户发言所需等级,VIP1聊天间隔时间(s位单位),VIP2聊天间隔时间(s),昵称最低长度,
+ChatItemPrice,ChatNeedLevel,ChatVIP1Interval,ChatVIP2Interval,NickNameLengthMin,
+100,9,6,3,4,

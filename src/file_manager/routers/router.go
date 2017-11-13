@@ -6,5 +6,6 @@ import (
 )
 
 func init() {
-    beego.Router("/", &controllers.FileController{})
+	beego.Router("/", &controllers.FileController{})
+	beego.Router("/GetCurVer", &controllers.GetVerController{})
 }

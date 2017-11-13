@@ -1,0 +1,5 @@
+id,vip图标名称,内容,价格,奖品图标,是否上架,
+id ,name,content,price,iconName,yesorno,
+1001,shop-icon-vip1,5510,1000,icon00,1,
+1002,shop-icon-vip2,5511,2000,icon01,1,
+1003,shop-icon-vip3,5512,5000,icon02,1,
