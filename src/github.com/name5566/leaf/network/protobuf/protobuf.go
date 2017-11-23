@@ -36,7 +36,7 @@ type MsgRaw struct {
 
 func NewProcessor() *Processor {
 	p := new(Processor)
-	p.littleEndian = true
+	p.littleEndian = false
 	p.msgID = make(map[reflect.Type]uint16)
 	return p
 }
