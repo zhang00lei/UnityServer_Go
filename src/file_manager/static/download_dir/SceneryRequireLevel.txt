@@ -1,7 +1,0 @@
-场景Id,开放等级,入口图标,等级限制图标,,
-id,level,icon,levelRestrict,,
-1,0,haiyangshijie,10,,
-2,10,bushahaiwan,10,,
-3,20,huangjinyuchang,20,,
-4,50,likuipiyu,50,,
-5,10000,shenhaijinchan,jijiang,,
