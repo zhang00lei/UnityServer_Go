@@ -137,7 +137,7 @@ func UpdateVer() {
 		fileInfo += strconv.FormatInt(v.Size(), 10)
 		fileInfos += fileInfo + "\n"
 	}
-	file, _ := os.OpenFile(filePath, os.O_CREATE, 0666)
+	file, _ := os.OpenFile(filePath, os.O_CREATE|os.O_RDWR, 0666)
 	defer file.Close()
 	wFile := bufio.NewWriter(file)
 	wFile.WriteString(fileInfos)
