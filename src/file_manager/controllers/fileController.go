@@ -11,7 +11,6 @@ import (
 	"strconv"
 	"strings"
 	"fmt"
-	"github.com/name5566/leaf/log"
 	"io"
 )
 
@@ -53,7 +52,7 @@ func (c *FileController) Post() {
 			if util.CheckFileIsExist(fileName) {
 				os.Remove(fileName)
 			}
-			file, _ := os.OpenFile(fileName, os.O_CREATE, 0666)
+			file, _ := os.OpenFile(fileName, os.O_CREATE|os.O_RDWR, 0666)
 			defer file.Close()
 			io.WriteString(file,csvInfo)
 			c.Data["FileName"] = strings.Replace(h.Filename, ".xlsx", fileSuffix, -1)
@@ -85,7 +84,6 @@ func (c *FileController) generaCSV(rows [][] string ) string {
 }
 func (c *FileController) generaLua(rows [][] string,fileName string) string {
 	var content string
-	log.Debug(strconv.Itoa(len(rows)))
 	for row,count:=2,len(rows);row<count ;row++{
 		var rowInfo string = "\t"
 		for i,len:=0,len(rows[row]);i<len;i++ {
