@@ -85,17 +85,17 @@ func (c *FileController) generaCSV(rows [][] string ) string {
 func (c *FileController) generaLua(rows [][] string,fileName string) string {
 	var content string
 	for row,count:=2,len(rows);row<count ;row++{
-		var rowInfo string = "\t"
+		var rowInfo string = "\t{"
 		for i,len:=0,len(rows[row]);i<len;i++ {
 			if strings.TrimSpace(rows[1][i])!="" {
 				colInfo:=rows[row][i]
 				colInfo = strings.Replace(colInfo,"\"","\\\"",-1)
-				rowInfo = rowInfo + fmt.Sprintf("%s=\"%s\"\t", rows[1][i], colInfo)
+				rowInfo = rowInfo + fmt.Sprintf("%s = \"%s\"\t", rows[1][i], colInfo)
 			}
 		}
-		content=content+rowInfo+"\n"
+		content=content+rowInfo+"}\n"
 	}
-	info := fmt.Sprintf("local %s={\t\n%s}\n return %s",fileName,content,fileName)
+	info := fmt.Sprintf("local %s = {\t\n%s}\n return %s",fileName,content,fileName)
 	return info
 }
 
