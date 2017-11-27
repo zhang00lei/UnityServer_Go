@@ -90,10 +90,10 @@ func (c *FileController) generaLua(rows [][] string,fileName string) string {
 			if strings.TrimSpace(rows[1][i])!="" {
 				colInfo:=rows[row][i]
 				colInfo = strings.Replace(colInfo,"\"","\\\"",-1)
-				rowInfo = rowInfo + fmt.Sprintf("%s = \"%s\"\t", rows[1][i], colInfo)
+				rowInfo = rowInfo + fmt.Sprintf("%s = \"%s\",\t", rows[1][i], colInfo)
 			}
 		}
-		content=content+rowInfo+"}\n"
+		content=content+rowInfo+"},\n"
 	}
 	info := fmt.Sprintf("local %s = {\t\n%s}\n return %s",fileName,content,fileName)
 	return info
