@@ -95,7 +95,7 @@ func (c *FileController) generaLua(rows [][] string,fileName string) string {
 		}
 		content=content+rowInfo+"},\n"
 	}
-	info := fmt.Sprintf("local %s = {\t\n%s}\n return %s",fileName,content,fileName)
+	info := fmt.Sprintf("local %s = {\t\n%s}\nreturn %s",fileName,content,fileName)
 	return info
 }
 
