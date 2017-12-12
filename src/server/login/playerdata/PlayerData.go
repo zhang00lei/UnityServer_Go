@@ -2,6 +2,7 @@ package playerdata
 
 import (
 	"github.com/name5566/leaf"
+	"github.com/name5566/leaf/log"
 )
 
 type PlayerInfo struct {
@@ -16,7 +17,7 @@ func (info *PlayerInfo)GetPlayerInfo() (playerInfo PlayerInfo)  {
 
 
 func (info *PlayerInfo) PlayerLogin(playerAccount,playerPwd string) *PlayerInfo {
-	has,_:= leaf.DataEngine.Where("Account=? and Pwd=?",playerAccount,playerPwd).Get(&info)
+	has,_:= leaf.DataEngine.Where("Account=? and Pwd=?",playerAccount,playerPwd).Get(info)
 	if !has{
 		return nil
 	}
@@ -24,17 +25,18 @@ func (info *PlayerInfo) PlayerLogin(playerAccount,playerPwd string) *PlayerInfo 
 }
 
 func (info *PlayerInfo) IsContainAccount(playerAccount string) bool{
-	has,_:=leaf.DataEngine.Where("Account=?",playerAccount).Get(&info)
+	log.Debug("%s",playerAccount)
+	has,_:=leaf.DataEngine.Where("Account=?",playerAccount).Get(info)
 	return has
 }
 
-func (info *PlayerInfo) PlayerRegister(playerAccount,playerPwd string) *PlayerInfo{
+func (info *PlayerInfo) PlayerRegister(playerAccount,playerPwd string) bool{
 	has:= info.IsContainAccount(playerAccount)
 	if has{
-		return nil
+		return false
 	}
 	info.Account = playerAccount
 	info.Pwd = playerPwd
 	leaf.DataEngine.Insert(info)
-	return info
+	return true
 }

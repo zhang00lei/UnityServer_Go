@@ -24,6 +24,16 @@ func (c *FileController) Get() {
 	c.TplName = "file_upload.html"
 }
 
+func (c *FileController) IsContainFile(fileName string) bool{
+	fileList :=[]string{".xlsx",".assetbundle"}
+	for _,v :=range fileList{
+		if strings.Contains(fileName,v){
+			return true
+		}
+	}
+	return false
+}
+
 func (c *FileController) Post() {
 	f, h, err := c.GetFile("myfile")
 	defer func() {
@@ -37,7 +47,11 @@ func (c *FileController) Post() {
 		return
 	}
 	path := conf.FileDir + h.Filename
-	c.SaveToFile("myfile", path)
+	if (c.IsContainFile(h.Filename)==true) {
+		c.SaveToFile("myfile", path)
+	}else {
+		c.Ctx.WriteString("文件格式不支持")
+	}
 	if strings.Contains(h.Filename, ".xlsx") {
 		csvInfo, err := c.excelToInfo(path)
 		os.Remove(path)

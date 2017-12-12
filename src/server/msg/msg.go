@@ -1,5 +1,4 @@
 package msg
-
 import (
 	"github.com/name5566/leaf/network/protobuf"
 )
