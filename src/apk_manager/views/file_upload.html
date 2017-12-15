@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文件上传</title>
+</head>
+<body>
+<form id="fform" method="POST" enctype="multipart/form-data">
+    <input id="myfile" name="myfile" type="file"/>
+    <input type="submit" value="提交"  />
+</form>
+<div>
+    <a href={{.FilePath}} target="_blank">{{.FileName}}</a>
+</div>
+<div>{{.CurVer}}</div>
+</body>
+</html>
