@@ -25,7 +25,7 @@ func cs_Login(args[] interface{}) {
 		args[1].(gate.Agent).SetUserData(playerInfo)
 		result.LoginResult = msg.SC_PlayerLogin_SUCCESS
 	} else {
-		has := playerInfo.IsContainAccount(loginInfo.Account)
+		has := new(playerdata.PlayerInfo).IsContainAccount(loginInfo.Account)
 		log.Debug("%s",has)
 		if !has {
 			result.LoginResult = msg.SC_PlayerLogin_ACCOUNT_ERROR
