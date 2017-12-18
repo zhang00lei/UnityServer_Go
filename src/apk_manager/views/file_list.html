@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文件列表</title>
+</head>
+<body>
+    {{range $key,$val := .FileInfo}}
+        <div>
+            <a href=static/download_dir/{{$val}} target="_blank">{{$val}}</a>
+        </div>
+    {{end}}
+</body>
+</html>

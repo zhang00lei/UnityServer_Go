@@ -7,4 +7,5 @@ import (
 
 func init() {
     beego.Router("/ApkSubmit",&controllers.FileController{})
+    beego.Router("/",&controllers.FileInfoController{})
 }

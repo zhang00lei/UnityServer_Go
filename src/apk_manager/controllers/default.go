@@ -4,6 +4,7 @@ import (
 	"github.com/astaxie/beego"
 	"strings"
 	"apk_manager/conf"
+	"io/ioutil"
 )
 
 type FileController struct {
@@ -35,9 +36,28 @@ func (c *FileController) Post(){
 	path := conf.FileDir + h.Filename
 	if (c.IsContainFile(h.Filename)) {
 		c.SaveToFile("myfile", path)
-		c.Data["FileName"] = "http://192.168.62.29:8080/ApkSubmit"+path
+		c.Data["FileName"] ="192.168.62.29:8080/"+ path
 		c.Data["FilePath"] = path
 	}else {
 		c.Ctx.WriteString("文件格式不支持")
 	}
+}
+
+type FileInfoController struct {
+	beego.Controller
+}
+
+func (c *FileInfoController)Get()  {
+	dir_list,e:=ioutil.ReadDir(conf.FileDir)
+	if e!=nil{
+		c.Ctx.WriteString(e.Error())
+		return 
+	}
+	fileName:=[]string{}
+	for _,v:=range dir_list {
+		fileName = append(fileName, v.Name())
+	}
+	c.Data["FileInfo"] = fileName
+	c.Data["FilePath"] = conf.FileDir
+	c.TplName = "file_list.html"
 }
