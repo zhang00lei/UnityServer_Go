@@ -4,8 +4,8 @@ import (
 	"reflect"
 	"server/login/playerdata"
 	"github.com/name5566/leaf/gate"
-	"github.com/name5566/leaf/log"
 	"server/msg"
+	"github.com/name5566/leaf"
 )
 
 func handleMsg(m interface{}, h interface{}) {
@@ -17,7 +17,6 @@ func init() {
 }
 
 func cs_Login(args[] interface{}) {
-	log.Debug("cs_Login")
 	loginInfo := args[0].(*msg.CS_PlayerLogin)
 	playerInfo := new(playerdata.PlayerInfo).PlayerLogin(loginInfo.Account, loginInfo.Pwd)
 	result := msg.SC_PlayerLogin{}
@@ -26,21 +25,20 @@ func cs_Login(args[] interface{}) {
 		result.LoginResult = msg.SC_PlayerLogin_SUCCESS
 	} else {
 		has := new(playerdata.PlayerInfo).IsContainAccount(loginInfo.Account)
-		log.Debug("%s",has)
 		if !has {
 			result.LoginResult = msg.SC_PlayerLogin_ACCOUNT_ERROR
 		} else {
 			result.LoginResult = msg.SC_PlayerLogin_PWD_ERROR
 		}
 	}
-	log.Debug("%s",result.LoginResult)
 	client := args[1].(gate.Agent)
 	client.WriteMsg(&result)
 }
 
 func cs_Register(args[] interface{}){
+
+	leaf.DataEngine.Sync2(new(playerdata.PlayerInfo))
 	regsterInfo:=args[0].(*msg.CS_PlayerRegister)
-	log.Debug("CS_Register")
 	isInsert:=new(playerdata.PlayerInfo).PlayerRegister(regsterInfo.Account,regsterInfo.Pwd)
 	result:=msg.SC_PlayerRegister{}
 
@@ -49,7 +47,6 @@ func cs_Register(args[] interface{}){
 	}else {
 		result.RegisterResult = msg.SC_PlayerRegister_ACCOUNT_ERROR
 	}
-	log.Debug("%s",result.RegisterResult)
 	client:=args[1].(gate.Agent)
 	client.WriteMsg(&result)
 }

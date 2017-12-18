@@ -9,4 +9,6 @@ func init() {
 	Processor.Register(&SC_PlayerLogin{})
 	Processor.Register(&CS_PlayerRegister{})
 	Processor.Register(&SC_PlayerRegister{})
+	Processor.Register(&CS_Heartbeat{})
+	Processor.Register(&SC_Heartbeat{})
 }

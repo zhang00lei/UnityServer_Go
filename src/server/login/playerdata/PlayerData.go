@@ -2,19 +2,19 @@ package playerdata
 
 import (
 	"github.com/name5566/leaf"
-	"github.com/name5566/leaf/log"
 )
 
 type PlayerInfo struct {
 	Id int64
 	Account string `xorm:"unique"`
 	Pwd string
+	CoinCount int32
+	CreatedAt int64 `xorm:"created"`
 }
 
 func (info *PlayerInfo)GetPlayerInfo() (playerInfo PlayerInfo)  {
 	return *info;
 }
-
 
 func (info *PlayerInfo) PlayerLogin(playerAccount,playerPwd string) *PlayerInfo {
 	has,_:= leaf.DataEngine.Where("Account=? and Pwd=?",playerAccount,playerPwd).Get(info)
@@ -25,7 +25,6 @@ func (info *PlayerInfo) PlayerLogin(playerAccount,playerPwd string) *PlayerInfo 
 }
 
 func (info *PlayerInfo) IsContainAccount(playerAccount string) bool{
-	log.Debug("%s",playerAccount)
 	has,_:=leaf.DataEngine.Where("Account=?",playerAccount).Get(info)
 	return has
 }
@@ -37,6 +36,7 @@ func (info *PlayerInfo) PlayerRegister(playerAccount,playerPwd string) bool{
 	}
 	info.Account = playerAccount
 	info.Pwd = playerPwd
+	info.CoinCount = 0
 	leaf.DataEngine.Insert(info)
 	return true
 }
