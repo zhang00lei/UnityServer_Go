@@ -12,6 +12,9 @@ It has these top-level messages:
 	SC_PlayerLogin
 	CS_PlayerRegister
 	SC_PlayerRegister
+	PlayerInfo
+	CS_PlayerInfo
+	SC_PlayerInfo
 	CS_Heartbeat
 	SC_Heartbeat
 */
@@ -31,55 +34,6 @@ var _ = math.Inf
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
-
-type SC_PlayerLogin_LoginResult int32
-
-const (
-	SC_PlayerLogin_SUCCESS       SC_PlayerLogin_LoginResult = 0
-	SC_PlayerLogin_ACCOUNT_ERROR SC_PlayerLogin_LoginResult = 1
-	SC_PlayerLogin_PWD_ERROR     SC_PlayerLogin_LoginResult = 2
-)
-
-var SC_PlayerLogin_LoginResult_name = map[int32]string{
-	0: "SUCCESS",
-	1: "ACCOUNT_ERROR",
-	2: "PWD_ERROR",
-}
-var SC_PlayerLogin_LoginResult_value = map[string]int32{
-	"SUCCESS":       0,
-	"ACCOUNT_ERROR": 1,
-	"PWD_ERROR":     2,
-}
-
-func (x SC_PlayerLogin_LoginResult) String() string {
-	return proto.EnumName(SC_PlayerLogin_LoginResult_name, int32(x))
-}
-func (SC_PlayerLogin_LoginResult) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor0, []int{1, 0}
-}
-
-type SC_PlayerRegister_RegisterResult int32
-
-const (
-	SC_PlayerRegister_SUCCESS       SC_PlayerRegister_RegisterResult = 0
-	SC_PlayerRegister_ACCOUNT_ERROR SC_PlayerRegister_RegisterResult = 1
-)
-
-var SC_PlayerRegister_RegisterResult_name = map[int32]string{
-	0: "SUCCESS",
-	1: "ACCOUNT_ERROR",
-}
-var SC_PlayerRegister_RegisterResult_value = map[string]int32{
-	"SUCCESS":       0,
-	"ACCOUNT_ERROR": 1,
-}
-
-func (x SC_PlayerRegister_RegisterResult) String() string {
-	return proto.EnumName(SC_PlayerRegister_RegisterResult_name, int32(x))
-}
-func (SC_PlayerRegister_RegisterResult) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor0, []int{3, 0}
-}
 
 type CS_PlayerLogin struct {
 	Account string `protobuf:"bytes,1,opt,name=account" json:"account,omitempty"`
@@ -106,7 +60,9 @@ func (m *CS_PlayerLogin) GetPwd() string {
 }
 
 type SC_PlayerLogin struct {
-	LoginResult SC_PlayerLogin_LoginResult `protobuf:"varint,1,opt,name=loginResult,enum=msg.SC_PlayerLogin_LoginResult" json:"loginResult,omitempty"`
+	// 0成功 1账号错误 2密码错误
+	Result   int32  `protobuf:"zigzag32,1,opt,name=result" json:"result,omitempty"`
+	PlayerId uint64 `protobuf:"varint,2,opt,name=playerId" json:"playerId,omitempty"`
 }
 
 func (m *SC_PlayerLogin) Reset()                    { *m = SC_PlayerLogin{} }
@@ -114,11 +70,18 @@ func (m *SC_PlayerLogin) String() string            { return proto.CompactTextSt
 func (*SC_PlayerLogin) ProtoMessage()               {}
 func (*SC_PlayerLogin) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{1} }
 
-func (m *SC_PlayerLogin) GetLoginResult() SC_PlayerLogin_LoginResult {
+func (m *SC_PlayerLogin) GetResult() int32 {
 	if m != nil {
-		return m.LoginResult
+		return m.Result
 	}
-	return SC_PlayerLogin_SUCCESS
+	return 0
+}
+
+func (m *SC_PlayerLogin) GetPlayerId() uint64 {
+	if m != nil {
+		return m.PlayerId
+	}
+	return 0
 }
 
 type CS_PlayerRegister struct {
@@ -146,7 +109,8 @@ func (m *CS_PlayerRegister) GetPwd() string {
 }
 
 type SC_PlayerRegister struct {
-	RegisterResult SC_PlayerRegister_RegisterResult `protobuf:"varint,1,opt,name=registerResult,enum=msg.SC_PlayerRegister_RegisterResult" json:"registerResult,omitempty"`
+	// 0成功 1账号错误
+	Result int32 `protobuf:"zigzag32,1,opt,name=result" json:"result,omitempty"`
 }
 
 func (m *SC_PlayerRegister) Reset()                    { *m = SC_PlayerRegister{} }
@@ -154,11 +118,83 @@ func (m *SC_PlayerRegister) String() string            { return proto.CompactTex
 func (*SC_PlayerRegister) ProtoMessage()               {}
 func (*SC_PlayerRegister) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{3} }
 
-func (m *SC_PlayerRegister) GetRegisterResult() SC_PlayerRegister_RegisterResult {
+func (m *SC_PlayerRegister) GetResult() int32 {
 	if m != nil {
-		return m.RegisterResult
+		return m.Result
 	}
-	return SC_PlayerRegister_SUCCESS
+	return 0
+}
+
+type PlayerInfo struct {
+	PlayerId      uint64 `protobuf:"varint,1,opt,name=playerId" json:"playerId,omitempty"`
+	PlayerAccount string `protobuf:"bytes,2,opt,name=playerAccount" json:"playerAccount,omitempty"`
+	PlayerName    string `protobuf:"bytes,3,opt,name=playerName" json:"playerName,omitempty"`
+	PlayerCoin    uint64 `protobuf:"varint,4,opt,name=playerCoin" json:"playerCoin,omitempty"`
+}
+
+func (m *PlayerInfo) Reset()                    { *m = PlayerInfo{} }
+func (m *PlayerInfo) String() string            { return proto.CompactTextString(m) }
+func (*PlayerInfo) ProtoMessage()               {}
+func (*PlayerInfo) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{4} }
+
+func (m *PlayerInfo) GetPlayerId() uint64 {
+	if m != nil {
+		return m.PlayerId
+	}
+	return 0
+}
+
+func (m *PlayerInfo) GetPlayerAccount() string {
+	if m != nil {
+		return m.PlayerAccount
+	}
+	return ""
+}
+
+func (m *PlayerInfo) GetPlayerName() string {
+	if m != nil {
+		return m.PlayerName
+	}
+	return ""
+}
+
+func (m *PlayerInfo) GetPlayerCoin() uint64 {
+	if m != nil {
+		return m.PlayerCoin
+	}
+	return 0
+}
+
+type CS_PlayerInfo struct {
+	PlayerId int32 `protobuf:"zigzag32,1,opt,name=playerId" json:"playerId,omitempty"`
+}
+
+func (m *CS_PlayerInfo) Reset()                    { *m = CS_PlayerInfo{} }
+func (m *CS_PlayerInfo) String() string            { return proto.CompactTextString(m) }
+func (*CS_PlayerInfo) ProtoMessage()               {}
+func (*CS_PlayerInfo) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{5} }
+
+func (m *CS_PlayerInfo) GetPlayerId() int32 {
+	if m != nil {
+		return m.PlayerId
+	}
+	return 0
+}
+
+type SC_PlayerInfo struct {
+	PlayerInfo *PlayerInfo `protobuf:"bytes,1,opt,name=playerInfo" json:"playerInfo,omitempty"`
+}
+
+func (m *SC_PlayerInfo) Reset()                    { *m = SC_PlayerInfo{} }
+func (m *SC_PlayerInfo) String() string            { return proto.CompactTextString(m) }
+func (*SC_PlayerInfo) ProtoMessage()               {}
+func (*SC_PlayerInfo) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{6} }
+
+func (m *SC_PlayerInfo) GetPlayerInfo() *PlayerInfo {
+	if m != nil {
+		return m.PlayerInfo
+	}
+	return nil
 }
 
 type CS_Heartbeat struct {
@@ -167,7 +203,7 @@ type CS_Heartbeat struct {
 func (m *CS_Heartbeat) Reset()                    { *m = CS_Heartbeat{} }
 func (m *CS_Heartbeat) String() string            { return proto.CompactTextString(m) }
 func (*CS_Heartbeat) ProtoMessage()               {}
-func (*CS_Heartbeat) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{4} }
+func (*CS_Heartbeat) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{7} }
 
 type SC_Heartbeat struct {
 	ServerTime int64 `protobuf:"zigzag64,1,opt,name=serverTime" json:"serverTime,omitempty"`
@@ -176,7 +212,7 @@ type SC_Heartbeat struct {
 func (m *SC_Heartbeat) Reset()                    { *m = SC_Heartbeat{} }
 func (m *SC_Heartbeat) String() string            { return proto.CompactTextString(m) }
 func (*SC_Heartbeat) ProtoMessage()               {}
-func (*SC_Heartbeat) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{5} }
+func (*SC_Heartbeat) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{8} }
 
 func (m *SC_Heartbeat) GetServerTime() int64 {
 	if m != nil {
@@ -190,32 +226,34 @@ func init() {
 	proto.RegisterType((*SC_PlayerLogin)(nil), "msg.SC_PlayerLogin")
 	proto.RegisterType((*CS_PlayerRegister)(nil), "msg.CS_PlayerRegister")
 	proto.RegisterType((*SC_PlayerRegister)(nil), "msg.SC_PlayerRegister")
+	proto.RegisterType((*PlayerInfo)(nil), "msg.PlayerInfo")
+	proto.RegisterType((*CS_PlayerInfo)(nil), "msg.CS_PlayerInfo")
+	proto.RegisterType((*SC_PlayerInfo)(nil), "msg.SC_PlayerInfo")
 	proto.RegisterType((*CS_Heartbeat)(nil), "msg.CS_Heartbeat")
 	proto.RegisterType((*SC_Heartbeat)(nil), "msg.SC_Heartbeat")
-	proto.RegisterEnum("msg.SC_PlayerLogin_LoginResult", SC_PlayerLogin_LoginResult_name, SC_PlayerLogin_LoginResult_value)
-	proto.RegisterEnum("msg.SC_PlayerRegister_RegisterResult", SC_PlayerRegister_RegisterResult_name, SC_PlayerRegister_RegisterResult_value)
 }
 
 func init() { proto.RegisterFile("LandlordsProto.proto", fileDescriptor0) }
 
 var fileDescriptor0 = []byte{
-	// 287 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x91, 0xcf, 0x4a, 0xf3, 0x40,
-	0x14, 0xc5, 0xbf, 0xb4, 0xf0, 0x95, 0xde, 0xb4, 0x43, 0x32, 0xb8, 0xc8, 0x4a, 0x65, 0x40, 0x70,
-	0x35, 0x88, 0x6e, 0x0b, 0x52, 0xc6, 0x82, 0x8b, 0x68, 0xc3, 0x4c, 0x8b, 0xcb, 0x90, 0x36, 0x43,
-	0x08, 0xe4, 0x4f, 0x99, 0x99, 0x2a, 0x3e, 0x86, 0xe0, 0x03, 0x4b, 0x62, 0x9b, 0x66, 0xdc, 0x88,
-	0x9b, 0x70, 0xce, 0xcd, 0x39, 0x97, 0xfb, 0x63, 0xe0, 0x2c, 0x4c, 0xaa, 0xb4, 0xa8, 0x55, 0xaa,
-	0x23, 0x55, 0x9b, 0x9a, 0xee, 0x9a, 0x2f, 0x1e, 0x96, 0x3a, 0x23, 0x33, 0x40, 0x4c, 0xc4, 0x51,
-	0x91, 0xbc, 0x4b, 0x15, 0xd6, 0x59, 0x5e, 0xe1, 0x00, 0x46, 0xc9, 0x76, 0x5b, 0xef, 0x2b, 0x13,
-	0x38, 0x97, 0xce, 0xf5, 0x98, 0x1f, 0x2d, 0xf6, 0x60, 0xb8, 0x7b, 0x4b, 0x83, 0x41, 0x3b, 0x6d,
-	0x24, 0xf9, 0x70, 0x00, 0x09, 0x66, 0xd5, 0xe7, 0xe0, 0x16, 0x8d, 0xe0, 0x52, 0xef, 0x8b, 0xef,
-	0x15, 0xe8, 0xf6, 0x82, 0x96, 0x3a, 0xa3, 0x76, 0x92, 0x86, 0xa7, 0x18, 0xef, 0x77, 0xc8, 0x0c,
-	0xdc, 0xde, 0x3f, 0xec, 0xc2, 0x48, 0xac, 0x19, 0x5b, 0x08, 0xe1, 0xfd, 0xc3, 0x3e, 0x4c, 0xe7,
-	0x8c, 0x2d, 0xd7, 0xcf, 0xab, 0x78, 0xc1, 0xf9, 0x92, 0x7b, 0x0e, 0x9e, 0xc2, 0x38, 0x7a, 0x79,
-	0x38, 0xd8, 0x01, 0xb9, 0x07, 0xbf, 0x23, 0xe2, 0x32, 0xcb, 0xb5, 0x91, 0xea, 0x4f, 0x50, 0x9f,
-	0x0e, 0xf8, 0xdd, 0xa9, 0xdd, 0x86, 0x27, 0x40, 0xea, 0xa0, 0x2d, 0xb4, 0x2b, 0x1b, 0xed, 0x98,
-	0xa7, 0xdc, 0x0a, 0xf3, 0x1f, 0x65, 0x72, 0x03, 0xc8, 0x4e, 0xfc, 0x86, 0x49, 0x10, 0x4c, 0x98,
-	0x88, 0x1f, 0x65, 0xa2, 0xcc, 0x46, 0x26, 0x86, 0x50, 0x98, 0x08, 0x76, 0xf2, 0xf8, 0x1c, 0x40,
-	0x4b, 0xf5, 0x2a, 0xd5, 0x2a, 0x2f, 0x65, 0x7b, 0x1c, 0xe6, 0xbd, 0xc9, 0xe6, 0x7f, 0xfb, 0xea,
-	0x77, 0x5f, 0x01, 0x00, 0x00, 0xff, 0xff, 0x43, 0xcd, 0x20, 0x75, 0x0d, 0x02, 0x00, 0x00,
+	// 300 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x92, 0xc1, 0x4b, 0x84, 0x40,
+	0x14, 0xc6, 0x31, 0x97, 0xad, 0x5e, 0xab, 0xe5, 0x10, 0x21, 0x1d, 0x22, 0x86, 0x0e, 0xc1, 0x82,
+	0x41, 0x5d, 0x83, 0x0a, 0x3b, 0xb4, 0xb0, 0xc4, 0x32, 0x76, 0x5f, 0x66, 0xd7, 0x97, 0x08, 0xea,
+	0xc8, 0x8c, 0x5b, 0xf4, 0x4f, 0xf4, 0x37, 0x87, 0x33, 0xbb, 0xa3, 0x42, 0x1d, 0xba, 0xc8, 0x7c,
+	0x9f, 0xdf, 0x7c, 0xef, 0xf7, 0x44, 0x38, 0x9d, 0xf3, 0x2a, 0x2d, 0x84, 0x4c, 0xd5, 0x42, 0x8a,
+	0x46, 0x44, 0x75, 0xfb, 0x24, 0x6e, 0xa9, 0x32, 0x7a, 0x0f, 0x7e, 0x9c, 0x2c, 0x17, 0x05, 0xff,
+	0x42, 0x39, 0x17, 0x59, 0x5e, 0x91, 0x10, 0xf6, 0xf9, 0x7a, 0x2d, 0x36, 0x55, 0x13, 0x3a, 0x97,
+	0xce, 0xf5, 0x21, 0xdb, 0x49, 0x72, 0x02, 0x6e, 0xfd, 0x99, 0x86, 0x7b, 0xda, 0x6d, 0x8f, 0xf4,
+	0x19, 0xfc, 0x24, 0x1e, 0xdc, 0x3e, 0x83, 0xb1, 0x44, 0xb5, 0x29, 0xcc, 0xe5, 0x80, 0x6d, 0x15,
+	0x39, 0x87, 0x83, 0x5a, 0xc7, 0x66, 0xa6, 0x60, 0xc4, 0xac, 0xa6, 0x0f, 0x10, 0x58, 0x06, 0x86,
+	0x59, 0xae, 0x1a, 0x94, 0xff, 0xc2, 0x98, 0x42, 0x60, 0x31, 0x6c, 0xc1, 0x1f, 0x24, 0xf4, 0xdb,
+	0x01, 0x30, 0xd1, 0x59, 0xf5, 0x2e, 0x06, 0x60, 0xce, 0x10, 0x8c, 0x5c, 0x81, 0x67, 0xce, 0x4f,
+	0x5b, 0x12, 0x33, 0x73, 0x68, 0x92, 0x0b, 0x00, 0x63, 0xbc, 0xf2, 0x12, 0x43, 0x57, 0x47, 0x7a,
+	0x4e, 0xf7, 0x3e, 0x16, 0x79, 0x15, 0x8e, 0xf4, 0x8c, 0x9e, 0x43, 0xa7, 0xe0, 0xd9, 0xf5, 0x7f,
+	0x45, 0x0a, 0x7a, 0xdf, 0xea, 0x11, 0x3c, 0xbb, 0xaa, 0x0e, 0xdf, 0xec, 0xda, 0x5b, 0xa5, 0xe3,
+	0x47, 0xb7, 0xc7, 0x51, 0xa9, 0xb2, 0xa8, 0x0b, 0xb1, 0x5e, 0x84, 0xfa, 0x30, 0x89, 0x93, 0xe5,
+	0x0b, 0x72, 0xd9, 0xac, 0x90, 0x37, 0x34, 0x82, 0x49, 0x12, 0x77, 0xba, 0xc5, 0x55, 0x28, 0x3f,
+	0x50, 0xbe, 0xe5, 0x25, 0xea, 0x42, 0xc2, 0x7a, 0xce, 0x6a, 0xac, 0xff, 0x9e, 0xbb, 0x9f, 0x00,
+	0x00, 0x00, 0xff, 0xff, 0x31, 0x81, 0x6b, 0x18, 0x55, 0x02, 0x00, 0x00,
 }

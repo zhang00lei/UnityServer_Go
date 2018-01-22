@@ -22,13 +22,14 @@ func cs_Login(args[] interface{}) {
 	result := msg.SC_PlayerLogin{}
 	if playerInfo != nil {
 		args[1].(gate.Agent).SetUserData(playerInfo)
-		result.LoginResult = msg.SC_PlayerLogin_SUCCESS
+		result.Result = 0
+		result.PlayerId = playerInfo.Id
 	} else {
 		has := new(playerdata.PlayerInfo).IsContainAccount(loginInfo.Account)
 		if !has {
-			result.LoginResult = msg.SC_PlayerLogin_ACCOUNT_ERROR
+			result.Result = 1
 		} else {
-			result.LoginResult = msg.SC_PlayerLogin_PWD_ERROR
+			result.Result = 2
 		}
 	}
 	client := args[1].(gate.Agent)
@@ -36,16 +37,15 @@ func cs_Login(args[] interface{}) {
 }
 
 func cs_Register(args[] interface{}){
-
 	leaf.DataEngine.Sync2(new(playerdata.PlayerInfo))
 	regsterInfo:=args[0].(*msg.CS_PlayerRegister)
 	isInsert:=new(playerdata.PlayerInfo).PlayerRegister(regsterInfo.Account,regsterInfo.Pwd)
 	result:=msg.SC_PlayerRegister{}
 
 	if isInsert{
-		result.RegisterResult = msg.SC_PlayerRegister_SUCCESS
+		result.Result = 0
 	}else {
-		result.RegisterResult = msg.SC_PlayerRegister_ACCOUNT_ERROR
+		result.Result = 1
 	}
 	client:=args[1].(gate.Agent)
 	client.WriteMsg(&result)

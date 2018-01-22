@@ -5,11 +5,12 @@ import (
 )
 
 type PlayerInfo struct {
-	Id int64
+	Id uint64
 	Account string `xorm:"unique"`
 	Pwd string
-	CoinCount int32
-	CreatedAt int64 `xorm:"created"`
+	PlayerNickName string
+	CoinCount uint64
+	CreatedAt uint64 `xorm:"created"`
 }
 
 func (info *PlayerInfo)GetPlayerInfo() (playerInfo PlayerInfo)  {
@@ -39,4 +40,10 @@ func (info *PlayerInfo) PlayerRegister(playerAccount,playerPwd string) bool{
 	info.CoinCount = 0
 	leaf.DataEngine.Insert(info)
 	return true
+}
+
+func  GetInfoById(playerId int32) PlayerInfo{
+	var info PlayerInfo
+	leaf.DataEngine.Where("id=?",playerId).Get(&info)
+	return info
 }

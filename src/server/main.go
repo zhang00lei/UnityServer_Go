@@ -7,9 +7,9 @@ import (
 	"server/game"
 	"server/gate"
 	"server/login"
+	"server/login/playerdata"
 )
 func main() {
-
 	lconf.LogLevel = conf.Server.LogLevel
 	lconf.LogPath = conf.Server.LogPath
 	lconf.LogFlag = conf.LogFlag
@@ -22,4 +22,6 @@ func main() {
 		gate.Module,
 		login.Module,
 	)
+
+	leaf.DataEngine.Sync2(new(playerdata.PlayerInfo))
 }

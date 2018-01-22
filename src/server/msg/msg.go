@@ -7,8 +7,13 @@ var Processor = protobuf.NewProcessor()
 func init() {
 	Processor.Register(&CS_PlayerLogin{})
 	Processor.Register(&SC_PlayerLogin{})
+
 	Processor.Register(&CS_PlayerRegister{})
 	Processor.Register(&SC_PlayerRegister{})
+
 	Processor.Register(&CS_Heartbeat{})
 	Processor.Register(&SC_Heartbeat{})
+
+	Processor.Register(&CS_PlayerInfo{})
+	Processor.Register(&SC_PlayerInfo{})
 }
