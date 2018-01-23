@@ -16,4 +16,12 @@ func init() {
 
 	Processor.Register(&CS_PlayerInfo{})
 	Processor.Register(&SC_PlayerInfo{})
+
+	Processor.Register(&CS_PlayerReady{})
+	Processor.Register(&SC_PlayerReady{})
+
+	Processor.Register(&CS_PlayerCancelReady{})
+	Processor.Register(&SC_PlayerCancelReady{})
+
+	Processor.Register(&SC_PlayerCard{})
 }

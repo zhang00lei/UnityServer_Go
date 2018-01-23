@@ -37,3 +37,7 @@ func cs_PlayerInfo(args[] interface{}) {
 	client:=args[1].(gate.Agent)
 	client.WriteMsg(&result)
 }
+
+func cs_GetCard(args[] interface{}){
+
+}
