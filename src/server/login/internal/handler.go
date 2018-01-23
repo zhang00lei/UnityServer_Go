@@ -11,6 +11,7 @@ import (
 func handleMsg(m interface{}, h interface{}) {
 	skeleton.RegisterChanRPC(reflect.TypeOf(m), h)
 }
+
 func init() {
 	handleMsg(&msg.CS_PlayerLogin{},cs_Login)
 	handleMsg(&msg.CS_PlayerRegister{},cs_Register)
@@ -41,7 +42,6 @@ func cs_Register(args[] interface{}){
 	regsterInfo:=args[0].(*msg.CS_PlayerRegister)
 	isInsert:=new(playerdata.PlayerInfo).PlayerRegister(regsterInfo.Account,regsterInfo.Pwd)
 	result:=msg.SC_PlayerRegister{}
-
 	if isInsert{
 		result.Result = 0
 	}else {

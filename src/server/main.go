@@ -7,6 +7,7 @@ import (
 	"server/game"
 	"server/gate"
 	"server/login"
+	"server/gamelogic"
 	"server/login/playerdata"
 )
 func main() {
@@ -21,7 +22,7 @@ func main() {
 		game.Module,
 		gate.Module,
 		login.Module,
+		gamelogic.Module,
 	)
-
 	leaf.DataEngine.Sync2(new(playerdata.PlayerInfo))
 }
