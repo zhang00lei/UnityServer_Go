@@ -18,6 +18,7 @@ func main() {
 	lconf.ProfilePath = conf.Server.ProfilePath
 	lconf.DB_DriverName = conf.Server.DB_DriverName
 	lconf.DB_DataSourceName = conf.Server.DB_DataSourceName
+
 	leaf.Run(
 		game.Module,
 		gate.Module,

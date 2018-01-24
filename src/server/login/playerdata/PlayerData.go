@@ -42,8 +42,8 @@ func (info *PlayerInfo) PlayerRegister(playerAccount,playerPwd string) bool{
 	return true
 }
 
-func  GetInfoById(playerId int32) PlayerInfo{
+func  GetInfoById(playerId int32) (PlayerInfo,bool){
 	var info PlayerInfo
-	leaf.DataEngine.Where("id=?",playerId).Get(&info)
-	return info
+	has,_:= leaf.DataEngine.Where("id=?",playerId).Get(&info)
+	return info,has
 }

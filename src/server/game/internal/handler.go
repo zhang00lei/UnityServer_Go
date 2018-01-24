@@ -27,13 +27,19 @@ func cs_Heartbeat(args[] interface{}){
 func cs_PlayerInfo(args[] interface{}) {
 	info:=args[0].(*msg.CS_PlayerInfo)
 	result:=msg.SC_PlayerInfo{}
-	playerInfo:= playerdata.GetInfoById(info.PlayerId)
-	userInfo:=msg.PlayerInfo{}
-	userInfo.PlayerAccount = playerInfo.Account
-	userInfo.PlayerId = playerInfo.Id
-	userInfo.PlayerCoin = playerInfo.CoinCount
-	userInfo.PlayerName = playerInfo.PlayerNickName
-	result.PlayerInfo = &userInfo
+	playerInfo, has := playerdata.GetInfoById(info.PlayerId)
+	if has {
+		userInfo := msg.PlayerInfo{}
+		userInfo.PlayerAccount = playerInfo.Account
+		userInfo.PlayerId = playerInfo.Id
+		userInfo.PlayerCoin = playerInfo.CoinCount
+		userInfo.PlayerName = playerInfo.PlayerNickName
+		result.Result = 0
+		result.PlayerInfo = &userInfo
+	}else {
+		result.Result = -1
+		result.PlayerInfo = nil
+	}
 	client:=args[1].(gate.Agent)
 	client.WriteMsg(&result)
 }
