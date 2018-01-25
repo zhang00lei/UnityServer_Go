@@ -188,7 +188,8 @@ func (m *CS_PlayerInfo) GetPlayerId() int32 {
 
 type SC_PlayerInfo struct {
 	PlayerInfo *PlayerInfo `protobuf:"bytes,1,opt,name=playerInfo" json:"playerInfo,omitempty"`
-	Result     int32       `protobuf:"zigzag32,2,opt,name=result" json:"result,omitempty"`
+	// -1:用户不存在 0:用户存在
+	Result int32 `protobuf:"zigzag32,2,opt,name=result" json:"result,omitempty"`
 }
 
 func (m *SC_PlayerInfo) Reset()                    { *m = SC_PlayerInfo{} }
@@ -303,7 +304,7 @@ func (m *SC_PlayerCancelReady) GetResult() int32 {
 
 // 下发卡牌信息
 type SC_PlayerCard struct {
-	// cardId/4==卡牌值
+	// cardId/4==卡牌值(0:A 1:1 ------>11:Q 12:K,52小王 53大王)
 	// cardId%4==卡牌类型(0:红 1:方 2:黑 3:梅)
 	CardId []int32 `protobuf:"zigzag32,1,rep,packed,name=cardId" json:"cardId,omitempty"`
 }
