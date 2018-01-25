@@ -6,7 +6,7 @@ import (
 	"github.com/name5566/leaf/gate"
 	"server/msg"
 	"github.com/name5566/leaf"
-)
+	)
 
 func handleMsg(m interface{}, h interface{}) {
 	skeleton.RegisterChanRPC(reflect.TypeOf(m), h)
@@ -22,7 +22,7 @@ func cs_Login(args[] interface{}) {
 	playerInfo := new(playerdata.PlayerInfo).PlayerLogin(loginInfo.Account, loginInfo.Pwd)
 	result := msg.SC_PlayerLogin{}
 	if playerInfo != nil {
-		args[1].(gate.Agent).SetUserData(playerInfo)
+		args[1].(gate.Agent).SetUserData(*playerInfo)
 		result.Result = 0
 		result.PlayerId = playerInfo.Id
 	} else {
