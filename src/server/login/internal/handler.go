@@ -18,35 +18,41 @@ func init() {
 }
 
 func cs_Login(args[] interface{}) {
+	var resultTemp int32
 	loginInfo := args[0].(*msg.CS_PlayerLogin)
-	playerInfo := new(playerdata.PlayerInfo).PlayerLogin(loginInfo.Account, loginInfo.Pwd)
+	playerInfo := new(playerdata.PlayerInfo).PlayerLogin(*loginInfo.Account, *loginInfo.Pwd)
 	result := msg.SC_PlayerLogin{}
+	result.Temp = []int32{1,2,3,4,5}
 	if playerInfo != nil {
 		args[1].(gate.Agent).SetUserData(*playerInfo)
-		result.Result = 0
-		result.PlayerId = playerInfo.Id
+		resultTemp=0
+		result.PlayerId = &playerInfo.Id
 	} else {
-		has := new(playerdata.PlayerInfo).IsContainAccount(loginInfo.Account)
+		has := new(playerdata.PlayerInfo).IsContainAccount(*loginInfo.Account)
 		if !has {
-			result.Result = 1
+			resultTemp=1
 		} else {
-			result.Result = 2
+			resultTemp=2
 		}
 	}
+	result.Result = &resultTemp
+	//result.Temp = []int32{123}
 	client := args[1].(gate.Agent)
 	client.WriteMsg(&result)
 }
 
 func cs_Register(args[] interface{}){
+	var resultTemp int32
 	leaf.DataEngine.Sync2(new(playerdata.PlayerInfo))
 	regsterInfo:=args[0].(*msg.CS_PlayerRegister)
-	isInsert:=new(playerdata.PlayerInfo).PlayerRegister(regsterInfo.Account,regsterInfo.Pwd)
+	isInsert:=new(playerdata.PlayerInfo).PlayerRegister(*regsterInfo.Account,*regsterInfo.Pwd)
 	result:=msg.SC_PlayerRegister{}
 	if isInsert{
-		result.Result = 0
+		resultTemp = 0
 	}else {
-		result.Result = 1
+		resultTemp = 1
 	}
+	result.Result = &resultTemp
 	client:=args[1].(gate.Agent)
 	client.WriteMsg(&result)
 }
