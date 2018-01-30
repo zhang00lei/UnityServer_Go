@@ -43,6 +43,7 @@ func cs_PlayerReady(args[] interface{})  {
 	}else{
 		resultTemp=-1
 	}
+	result.Result = &resultTemp
 	args[1].(gate.Agent).WriteMsg(&result)
 }
 
@@ -82,17 +83,12 @@ func  dispatchCard(matchPlayer []gate.Agent) {
 		cardInfo[i] = cardSourceInfo[rnd]
 		cardSourceInfo=append(cardSourceInfo[:rnd],cardSourceInfo[rnd+1:]...)
 	}
-	for i:=0;i<len(cardInfo);i++{
-		log.Debug("...%v",cardInfo[i])
-	}
 	for i:=0;i<len(matchPlayer) ;i++  {
 		playerCard:=msg.SC_PlayerCard{}
-		playerCard.CardId =[]int32{0,1,2,3,4}// cardInfo[i*13:i*12+13]
-		for j:=0;j<len(playerCard.CardId) ;j++  {
-			log.Debug("%v",playerCard.CardId[j])
-		}
+		playerIdTemp:=matchPlayer[i].(gate.Agent).UserData().(playerdata.PlayerInfo).Id
+		playerCard.PlayerId = &playerIdTemp
+		playerCard.CardId = cardInfo[i*13:i*12+13]
 		matchPlayer[i].WriteMsg(&playerCard)
-		log.Debug("%v",matchPlayer[i].RemoteAddr())
 	}
 }
 

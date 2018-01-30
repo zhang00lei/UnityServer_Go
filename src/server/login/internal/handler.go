@@ -22,7 +22,6 @@ func cs_Login(args[] interface{}) {
 	loginInfo := args[0].(*msg.CS_PlayerLogin)
 	playerInfo := new(playerdata.PlayerInfo).PlayerLogin(*loginInfo.Account, *loginInfo.Pwd)
 	result := msg.SC_PlayerLogin{}
-	result.Temp = []int32{1,2,3,4,5}
 	if playerInfo != nil {
 		args[1].(gate.Agent).SetUserData(*playerInfo)
 		resultTemp=0
