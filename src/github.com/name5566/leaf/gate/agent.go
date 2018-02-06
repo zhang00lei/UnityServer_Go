@@ -11,8 +11,8 @@ type Agent interface {
 	Close()
 	Destroy()
 	//添加客户端断开连接事件
-	AddSocketCloseEvent(f func())
-	RemoveSocketCloseEvent(f func())
+	AddSocketCloseEvent(f func(agent Agent))
+	RemoveSocketCloseEvent(f func(agent Agent))
 	UserData() interface{}
 	SetUserData(data interface{})
 }

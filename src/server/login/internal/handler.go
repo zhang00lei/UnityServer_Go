@@ -6,7 +6,7 @@ import (
 	"github.com/name5566/leaf/gate"
 	"server/msg"
 	"github.com/name5566/leaf"
-	)
+)
 
 func handleMsg(m interface{}, h interface{}) {
 	skeleton.RegisterChanRPC(reflect.TypeOf(m), h)
@@ -35,7 +35,6 @@ func cs_Login(args[] interface{}) {
 		}
 	}
 	result.Result = &resultTemp
-	//result.Temp = []int32{123}
 	client := args[1].(gate.Agent)
 	client.WriteMsg(&result)
 }
