@@ -15,4 +15,6 @@ func init() {
 
 	msg.Processor.SetRouter(&msg.CS_PlayerReady{},gamelogic.ChanRPC)
 	msg.Processor.SetRouter(&msg.CS_PlayerCancelReady{},gamelogic.ChanRPC)
+	msg.Processor.SetRouter(&msg.CS_PlayerGrabHost{},gamelogic.ChanRPC)
+	msg.Processor.SetRouter(&msg.CS_PutCard{},gamelogic.ChanRPC)
 }

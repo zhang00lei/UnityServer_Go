@@ -7,7 +7,6 @@ import (
 	"server/login/playerdata"
 	"math/rand"
 	"time"
-	"github.com/name5566/leaf/log"
 )
 
 func handleMsg(m interface{}, h interface{}) {
@@ -19,6 +18,8 @@ var readyPlayerMap map[uint64]gate.Agent
 func init() {
 	handleMsg(&msg.CS_PlayerReady{},cs_PlayerReady)
 	handleMsg(&msg.CS_PlayerCancelReady{},cs_PlayerCancelReady)
+	handleMsg(&msg.CS_PlayerGrabHost{},cs_PlayerGrabHost)
+	handleMsg(&msg.CS_PutCard{},cs_PutCard)
 	readyPlayerMap=make(map[uint64]gate.Agent)
 }
 
@@ -49,7 +50,6 @@ func cs_PlayerReady(args[] interface{})  {
 
 func getPlayerMatchResult() (bool,[]gate.Agent){
 	//满足匹配条件
-	log.Debug("match count:%v",len(readyPlayerMap))
 	if len(readyPlayerMap)>=0{
 		count:=0
 		matchPlayer := make([]gate.Agent, 0)
@@ -66,7 +66,6 @@ func getPlayerMatchResult() (bool,[]gate.Agent){
 }
 
 //分发卡牌
-
 /**
  	cardId/4==卡牌值(0:A 1:1 ------>11:Q 12:K,52小王 53大王)
 	cardId%4==卡牌类型(0:红 1:方 2:黑 3:梅)
@@ -85,6 +84,8 @@ func  dispatchCard(matchPlayer []gate.Agent) {
 	}
 	for i:=0;i<len(matchPlayer) ;i++  {
 		playerCard:=msg.SC_PlayerCard{}
+		playerPosition:=int32(i)
+		playerCard.Position = &playerPosition
 		playerIdTemp:=matchPlayer[i].(gate.Agent).UserData().(playerdata.PlayerInfo).Id
 		playerCard.PlayerId = &playerIdTemp
 		playerCard.CardId = cardInfo[i*13:i*12+13]
@@ -104,4 +105,14 @@ func cs_PlayerCancelReady(args[] interface{}){
 	}
 	result.Result = &resultTemp
 	args[1].(gate.Agent).WriteMsg(&result)
+}
+
+//抢地主逻辑
+func cs_PlayerGrabHost(args[] interface{})  {
+
+}
+
+//玩家出牌
+func cs_PutCard(args[] interface{}){
+
 }

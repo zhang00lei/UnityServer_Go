@@ -24,4 +24,12 @@ func init() {
 	Processor.Register(&SC_PlayerCancelReady{})
 
 	Processor.Register(&SC_PlayerCard{})
+
+	Processor.Register(&CS_PlayerGrabHost{})
+	Processor.Register(&SC_PlayerGrabHost{})
+
+	Processor.Register(&CS_PutCard{})
+	Processor.Register(&SC_PutCard{})
+
+	Processor.Register(&SC_GameResult{})
 }

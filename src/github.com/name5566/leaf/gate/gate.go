@@ -87,12 +87,16 @@ type agent struct {
 	conn     network.Conn
 	gate     *Gate
 	userData interface{}
+	socketClientFunc []func()
 }
 
 func (a *agent) Run() {
 	for {
 		data, err := a.conn.ReadMsg()
 		if err != nil {
+			for _,v :=range a.socketClientFunc{
+				v()
+			}
 			log.Debug("read message: %v", err)
 			break
 		}
@@ -157,4 +161,19 @@ func (a *agent) UserData() interface{} {
 
 func (a *agent) SetUserData(data interface{}) {
 	a.userData = data
+}
+
+//添加断开链接事件
+func (a *agent) AddSocketCloseEvent(fc func())  {
+	a.socketClientFunc = append(a.socketClientFunc, fc)
+}
+
+//移除断开链接事件
+func (a *agent) RemoveSocketCloseEvent(fc func()) {
+	for k, v := range a.socketClientFunc {
+		if &v == &fc {
+			kk := k + 1
+			a.socketClientFunc = append(a.socketClientFunc[:k], a.socketClientFunc[kk:]...)
+		}
+	}
 }

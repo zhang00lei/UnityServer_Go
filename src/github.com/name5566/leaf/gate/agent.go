@@ -10,6 +10,9 @@ type Agent interface {
 	RemoteAddr() net.Addr
 	Close()
 	Destroy()
+	//添加客户端断开连接事件
+	AddSocketCloseEvent(f func())
+	RemoveSocketCloseEvent(f func())
 	UserData() interface{}
 	SetUserData(data interface{})
 }
