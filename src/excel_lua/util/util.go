@@ -2,11 +2,12 @@ package util
 
 import (
 	"bufio"
+	"excel_lua/export_type"
 	"fmt"
 	"os"
 )
 
-func GetFileWriter(outPath string) (*bufio.Writer, *os.File) {
+func GetFileWriter(outPath string, fileType export_type.FileType) (*bufio.Writer, *os.File) {
 	if _, err := os.Stat(outPath); err == nil {
 		os.Remove(outPath)
 	}
@@ -16,6 +17,8 @@ func GetFileWriter(outPath string) (*bufio.Writer, *os.File) {
 		return nil, nil
 	}
 	write := bufio.NewWriter(file)
-	write.WriteString("---this file is generate by tools,do not modify it.\n")
+	if fileType == export_type.Lua {
+		write.WriteString("---this file is generate by tools,do not modify it.\n")
+	}
 	return write, file
 }

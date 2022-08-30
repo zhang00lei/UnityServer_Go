@@ -2,6 +2,7 @@ package excel2lua
 
 import (
 	"bufio"
+	"excel_lua/export_type"
 	"excel_lua/util"
 	"fmt"
 	"path"
@@ -16,7 +17,7 @@ import (
 //  @param outLuaPath 输出lua路径
 //
 func ExportLuaConfig(excelData [][]string, outLuaPath string) {
-	write, file := util.GetFileWriter(outLuaPath)
+	write, file := util.GetFileWriter(outLuaPath, export_type.Lua)
 	defer file.Close()
 	fileSuffix := path.Ext(outLuaPath)
 	filenameWithSuffix := filepath.Base(outLuaPath)
@@ -46,8 +47,10 @@ func exportLuaNote(excelData [][]string, write *bufio.Writer) {
 			continue
 		}
 		fieldType := excelData[3][i]
-		if fieldType == "int" || fieldType == "float" || fieldType == "number" {
+		if fieldType == "int" || fieldType == "float" || fieldType == "number" || fieldType == "idx1" {
 			fieldType = "number"
+		} else if fieldType == "bool" {
+			fieldType = "boolean"
 		}
 		fieldDes := excelData[1][i]
 		fieldDes = strings.ReplaceAll(fieldDes, "\n", " ")
@@ -90,10 +93,15 @@ func exportLuaData(excelData [][]string, write *bufio.Writer, fileName string) {
 				}
 				info = fmt.Sprintf("        %s = %s,\n", fieldName, cell)
 			} else if fieldType == "string" {
+				if strings.Contains(cell, "\"") {
+					cell = strings.Replace(cell, "\"", `\"`, -1)
+				} else if strings.Contains(cell, "\n") {
+					cell = strings.Replace(cell, "\n", `\n`, -1)
+				}
 				info = fmt.Sprintf("        %s = \"%s\",\n", fieldName, cell)
 			} else if fieldType == "table" {
 				info = fmt.Sprintf("        %s = %s,\n", fieldName, cell)
-			} else if fieldType == "boolean" {
+			} else if fieldType == "boolean" || fieldType == "bool" {
 				temp := "false"
 				if cell == "1" {
 					temp = "true"

@@ -1,6 +1,7 @@
 package excel2lua
 
 import (
+	"excel_lua/export_type"
 	"excel_lua/util"
 	"fmt"
 )
@@ -11,7 +12,7 @@ import (
 //  @param toPath 输入lua路径
 //
 func ExportCommonConfig(excelData [][]string, toPath string) {
-	write, file := util.GetFileWriter(toPath)
+	write, file := util.GetFileWriter(toPath, export_type.Lua)
 	defer file.Close()
 	write.WriteString("---@class CommonConfig\n")
 	write.WriteString("local CommonConfig = {}\n")
