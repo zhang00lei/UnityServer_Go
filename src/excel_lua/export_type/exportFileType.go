@@ -7,4 +7,5 @@ const (
 	Lua FileType = iota
 	// 导出json
 	Json
+	CSharp
 )

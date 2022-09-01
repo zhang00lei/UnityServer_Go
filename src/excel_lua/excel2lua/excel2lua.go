@@ -5,8 +5,6 @@ import (
 	"excel_lua/export_type"
 	"excel_lua/util"
 	"fmt"
-	"path"
-	"path/filepath"
 	"strings"
 )
 
@@ -19,9 +17,7 @@ import (
 func ExportLuaConfig(excelData [][]string, outLuaPath string) {
 	write, file := util.GetFileWriter(outLuaPath, export_type.Lua)
 	defer file.Close()
-	fileSuffix := path.Ext(outLuaPath)
-	filenameWithSuffix := filepath.Base(outLuaPath)
-	fileName := strings.TrimSuffix(filenameWithSuffix, fileSuffix)
+	fileName,_ := util.GetFileNameNoExtensionByPath(outLuaPath)
 	info := fmt.Sprintf("---@class %s\n", fileName)
 	write.WriteString(info)
 

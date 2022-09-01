@@ -18,6 +18,33 @@ func SaveConfigInfo(configName string) {
 	mutex.Unlock()
 }
 
+func ExportCSharpInit(outPath, generateFileName string) {
+	write, file := util.GetFileWriter(outPath, export_type.CSharp)
+	defer file.Close()
+	write.WriteString(`using MxxM.GameClient;
+using UnityEngine;
+
+public partial class DataTableManager
+{
+    private TextAsset textAsset;
+
+    private void InitData()
+    {`)
+	write.WriteString("\n")
+	for _, configName := range allConfigName {
+		if generateFileName != "" && !strings.Contains(generateFileName, configName+",") {
+			continue
+		}
+		infoTemp := fmt.Sprintf("        textAsset = Context.Game.Loader.LoadAsset<TextAsset>(\"Assets/DevHere/Datas/Json/%s.json\");\n", configName)
+		write.WriteString(infoTemp)
+		infoTemp = fmt.Sprintf("        T%sHelper.InitData(textAsset.text);\n", configName)
+		write.WriteString(infoTemp)
+	}
+	write.WriteString(`    }
+}`)
+	write.Flush()
+}
+
 func ExportConfigNames(outPath string) {
 	write, file := util.GetFileWriter(outPath, export_type.Lua)
 	defer file.Close()
